@@ -1,8 +1,11 @@
-export function add(a: number, b: number): number {
-  return a + b;
-}
+// main.ts
+import { serve } from "https://deno.land/std/http/server.ts";
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
-}
+const handler = (req: Request) => {
+  return new Response("Testeo de pagina web", {
+    headers: { "content-type": "text/plain" },
+  });
+};
+
+console.log("Hello");
+serve(handler);
