@@ -1,14 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proto Spirit</title> <!-- This is what the title on the user's browser will be -->
-  <script src="https://cdn.tailwindcss.com"></script> <!--Using tailwind for front end design-->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Proto Spirit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer>
+    // Toggle mobile menu
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("menu-toggle");
+      const menu = document.getElementById("mobile-menu");
+      btn?.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+    });
+  </script>
   <script defer src="card.js"></script>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
-  <h1 class="text-6xl font-bold text-indigo-400">Proto Spirit</h1> <!-- Main title of the website-->
-  <ui-card>test</ui-card>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="bg-gray-800 p-4 shadow-md">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Burger button meant for mobile devices (hidden on large screens) -->
+      <button id="menu-toggle" class="md:hidden text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+
+      <!-- Centered nav links (hidden on small screens) -->
+      <ul class="hidden md:flex flex-1 justify-center space-x-8 text-lg font-medium">
+        <li><a href="#" class="hover:text-indigo-400 transition">Main</a></li>
+        <li><a href="#" class="hover:text-indigo-400 transition">Cards</a></li>
+        <li><a href="#" class="hover:text-indigo-400 transition">About Us</a></li>
+      </ul>
+
+      <!-- Right-aligned auth links (hidden on small screens) -->
+      <div class="hidden md:flex space-x-4 text-sm font-semibold">
+        <a href="#" class="hover:text-indigo-400 transition">Register</a>
+        <a href="#" class="hover:text-indigo-400 transition">Log In</a>
+      </div>
+    </div>
+
+    <!-- Mobile menu (hidden by default, shown when burger clicked) -->
+    <div id="mobile-menu" class="md:hidden mt-4 hidden">
+      <ul class="flex flex-col space-y-2 text-center text-lg font-medium">
+        <li><a href="#" class="hover:text-indigo-400 transition">Main</a></li>
+        <li><a href="#" class="hover:text-indigo-400 transition">Cards</a></li>
+        <li><a href="#" class="hover:text-indigo-400 transition">About War Spirit</a></li>
+        <li><a href="#" class="hover:text-indigo-400 transition">Register</a></li>
+        <li><a href="#" class="hover:text-indigo-400 transition">Log In</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="flex-grow flex flex-col items-center justify-start mt-12">
+    <h1 class="text-6xl font-bold text-indigo-400 mb-6">Proto Spirit</h1>
+    <ui-card>A web app that allows you to scan and register your War Spirit cards to keep a personal inventory! </ui-card>
+  </main>
+
 </body>
 </html>
+
