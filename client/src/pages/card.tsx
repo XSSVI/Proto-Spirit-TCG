@@ -1,0 +1,59 @@
+import { useState } from "react";
+
+type CardData = {
+  name: string;
+  keywords: string[];
+  type: string;
+  element: string;
+  species: string;
+};
+
+type CardImageButtonProps = {
+  imageUrl: string;
+  cardData: CardData;
+};
+
+export default function CardImageButton({ imageUrl, cardData }: CardImageButtonProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <div>
+      {/* Image Button */}
+      <img
+        src={imageUrl}
+        alt={cardData.name}
+        onClick={() => setIsModalOpen(true)}
+        className="w-40 h-auto cursor-pointer transition-transform duration-150 ease-in-out hover:scale-105 rounded shadow"
+      />
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="bg-white text-black p-6 rounded-lg shadow-xl max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-bold mb-4">{cardData.name}</h2>
+            <ul className="space-y-2 text-sm">
+              <li><strong>Type:</strong> {cardData.type}</li>
+              <li><strong>Element:</strong> {cardData.element}</li>
+              <li><strong>Species:</strong> {cardData.species}</li>
+              <li>
+                <strong>Keywords:</strong> {cardData.keywords.join(", ")}
+              </li>
+            </ul>
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="mt-6 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

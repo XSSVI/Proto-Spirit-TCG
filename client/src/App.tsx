@@ -1,9 +1,19 @@
 import React from "react";
+import Card from "./pages/card.tsx"; // adjust the path as needed
 
 function App() {
   // Mobile menu toggle logic using React state
   const [menuOpen, setMenuOpen] = React.useState(false);
-
+  
+  // Example card data
+  const exampleCard = {
+    name: "Fire Warrior",
+    keywords: ["aggressive", "melee", "berserker"],
+    type: "Warrior",
+    element: "Fire",
+    species: "Human",
+  };
+  
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">
       {/* Navbar */}
@@ -61,6 +71,13 @@ function App() {
         <p className="text-xl max-w-2xl">
           A web app that allows you to scan and register your War Spirit cards to keep a personal inventory!
         </p>
+
+        {/* Card button preview */}
+        <Card
+          imageUrl="/king_of_hearts2.png"
+          cardData={exampleCard}
+        />
+
       </main>
     </div>
   );
