@@ -1,5 +1,12 @@
 import React from "react";
-import Card from "./pages/card.tsx"; // adjust the path as needed
+import { Routes, Route, Link } from "react-router-dom";
+
+// With these the navbar is connected to the other pages in the website
+import Card from "./pages/card.tsx"; 
+import Cards from "./pages/Cards.tsx";
+import Login from "./pages/Login.tsx";
+import About from "./pages/About.tsx";
+import Register from "./pages/Register.tsx";
 
 function App() {
   // Mobile menu toggle logic using React state
@@ -39,15 +46,15 @@ function App() {
 
           {/* Center nav links */}
           <ul className="hidden md:flex flex-1 justify-center space-x-8 text-lg font-medium">
-            <li><a href="#" className="hover:text-indigo-400 transition">Main</a></li>
-            <li><a href="#" className="hover:text-indigo-400 transition">Cards</a></li>
-            <li><a href="#" className="hover:text-indigo-400 transition">About War Spirit</a></li>
+            <li><Link to="/" className="hover:text-indigo-400 transition">Main</Link></li>
+            <li><Link to="/cards" className="hover:text-indigo-400 transition">Cards</Link></li>
+            <li><Link to="/about" className="hover:text-indigo-400 transition">About War Spirit</Link></li>
           </ul>
 
           {/* Right-side auth links */}
           <div className="hidden md:flex space-x-4 text-sm font-semibold">
-            <a href="#" className="hover:text-indigo-400 transition">Register</a>
-            <a href="#" className="hover:text-indigo-400 transition">Log In</a>
+            <Link to="/register" className="hover:text-indigo-400 transition">Register</Link>
+            <Link to="/login" className="hover:text-indigo-400 transition">Log In</Link>
           </div>
         </div>
 
@@ -55,29 +62,37 @@ function App() {
         {menuOpen && (
           <div className="md:hidden mt-4">
             <ul className="flex flex-col space-y-2 text-center text-lg font-medium">
-              <li><a href="#" className="hover:text-indigo-400 transition">Main</a></li>
-              <li><a href="#" className="hover:text-indigo-400 transition">Cards</a></li>
-              <li><a href="#" className="hover:text-indigo-400 transition">About War Spirit</a></li>
-              <li><a href="#" className="hover:text-indigo-400 transition">Register</a></li>
-              <li><a href="#" className="hover:text-indigo-400 transition">Log In</a></li>
+              <li><Link to="/" className="hover:text-indigo-400 transition">Main</Link></li>
+              <li><Link to="/cards" className="hover:text-indigo-400 transition">Cards</Link></li>
+              <li><Link to="/about" className="hover:text-indigo-400 transition">About War Spirit</Link></li>
+              <li><Link to="/register" className="hover:text-indigo-400 transition">Register</Link></li>
+              <li><Link to="/login" className="hover:text-indigo-400 transition">Log In</Link></li>
             </ul>
           </div>
         )}
       </nav>
 
-      {/* Main content */}
+      {/* Main content with Routes */}
       <main className="flex-grow flex flex-col items-center justify-start mt-12 text-center px-4">
-        <h1 className="text-6xl font-bold text-indigo-400 mb-6">Proto Spirit</h1>
-        <p className="text-xl max-w-2xl">
-          A web app that allows you to scan and register your War Spirit cards to keep a personal inventory!
-        </p>
-
-        {/* Card button preview */}
-        <Card
-          imageUrl="/king_of_hearts2.png"
-          cardData={exampleCard}
-        />
-
+        <Routes>
+          <Route path="/" element={
+            <>
+              <h1 className="text-6xl font-bold text-indigo-400 mb-6">Proto Spirit</h1>
+              <p className="text-xl max-w-2xl">
+                A web app that allows you to scan and register your War Spirit cards to keep a personal inventory!
+              </p>
+              {/* Card button preview */}
+              <Card
+                imageUrl="/king_of_hearts2.png"
+                cardData={exampleCard}
+              />
+            </>
+          } />
+          <Route path="/cards" element={<Cards />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
       </main>
     </div>
   );
