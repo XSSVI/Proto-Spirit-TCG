@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 
 // With these the navbar is connected to the other pages in the website
-import Card from "./pages/card.tsx"; 
 import Cards from "./pages/Cards.tsx";
 import Login from "./pages/Login.tsx";
 import About from "./pages/About.tsx";
@@ -11,15 +10,6 @@ import Register from "./pages/Register.tsx";
 function App() {
   // Mobile menu toggle logic using React state
   const [menuOpen, setMenuOpen] = React.useState(false);
-  
-  // Example card data
-  const exampleCard = {
-    name: "Fire Warrior",
-    keywords: ["aggressive", "melee", "berserker"],
-    type: "Warrior",
-    element: "Fire",
-    species: "Human",
-  };
   
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col">
@@ -81,11 +71,6 @@ function App() {
               <p className="text-xl max-w-2xl">
                 A web app that allows you to scan and register your War Spirit cards to keep a personal inventory!
               </p>
-              {/* Card button preview */}
-              <Card
-                imageUrl="/king_of_hearts2.png"
-                cardData={exampleCard}
-              />
             </>
           } />
           <Route path="/cards" element={<Cards />} />
