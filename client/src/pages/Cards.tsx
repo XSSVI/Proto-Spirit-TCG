@@ -20,7 +20,7 @@ function Cards() {
       type: "Mage",
       element: "Water",
       species: "Elf",
-      imageUrl: "/queen_of_spades.png"
+      imageUrl: "/queen_of_hearts2.png"
     },
     {
       id: 3,
@@ -29,7 +29,52 @@ function Cards() {
       type: "Guardian",
       element: "Earth",
       species: "Dwarf",
-      imageUrl: "/ace_of_diamonds.png"
+      imageUrl: "/jack_of_hearts2.png"
+    },
+    {
+      id: 4,
+      name: "Wind Assassin",
+      keywords: ["stealth", "speed", "critical"],
+      type: "Assassin",
+      element: "Wind",
+      species: "Orc",
+      imageUrl: "/10_of_hearts.png"
+    },
+    {
+      id: 5,
+      name: "Lightning Shaman",
+      keywords: ["shock", "area", "support"],
+      type: "Shaman",
+      element: "Lightning",
+      species: "Goblin",
+      imageUrl: "/ace_of_hearts.png"
+    },
+    {
+      id: 6,
+      name: "Shadow Necromancer",
+      keywords: ["summon", "curse", "darkness"],
+      type: "Necromancer",
+      element: "Shadow",
+      species: "Undead",
+      imageUrl: "/2_of_spades.png"
+    },
+    {
+      id: 7,
+      name: "Ice Archer",
+      keywords: ["ranged", "slow", "precision"],
+      type: "Archer",
+      element: "Ice",
+      species: "Elf",
+      imageUrl: "/8_of_spades.png"
+    },
+    {
+      id: 8,
+      name: "Storm Paladin",
+      keywords: ["holy", "charge", "resilience"],
+      type: "Paladin",
+      element: "Storm",
+      species: "Human",
+      imageUrl: "/10_of_spades.png"
     }
   ]);
 
@@ -132,7 +177,7 @@ function Cards() {
       </div>
       
       {/* Card grid - using filteredCards instead of cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {filteredCards.map((card) => (
           <div key={card.id} className="flex justify-center">
             <Card
