@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "./card.tsx";
+import Card from "./carddata.tsx";
 
 function Cards() {
   // Card data state
