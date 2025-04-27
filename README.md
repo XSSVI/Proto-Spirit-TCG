@@ -22,5 +22,9 @@ Nombre del grupo: Proto Spirit
 
 # Para usar:
 -Crear .env en el root del proyecto.
+
+
 -Copiar los contenidos de .env.example en .env
+
+
 -Rellenar los datos según corresponda
