@@ -19,3 +19,8 @@ Nombre del grupo: Proto Spirit
  -Filtros por tipo, rareza y estado de la carta. 
  -Estadísticas sobre la colección del usuario (completitud, tipos predominantes, 
  etc.).
+
+# Para usar:
+-Crear .env en el root del proyecto.
+-Copiar los contenidos de .env.example en .env
+-Rellenar los datos según corresponda
