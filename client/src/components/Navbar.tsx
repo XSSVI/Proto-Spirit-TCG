@@ -5,16 +5,32 @@ import { Link, useNavigate } from "react-router-dom";
 function Navbar() {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const navigate = useNavigate();
-
+  
   // Auth management: check if the user is logged in
   const token = localStorage.getItem("token");
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
+  
+  const handleLogout = async () => {
+    try {
+      if (token) {
+        // Call the logout API to invalidate the token on the server
+        await fetch("/api/auth/logout", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      // Always clear local storage and redirect
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      navigate("/login");
+    }
   };
-
+  
   return (
     <nav className="bg-gray-800 p-4 shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -35,14 +51,12 @@ function Navbar() {
             <path d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-
         {/* Center nav links */}
         <ul className="hidden md:flex flex-1 justify-center space-x-8 text-lg font-medium">
           <li><Link to="/" className="hover:text-indigo-400 transition">Main</Link></li>
           <li><Link to="/cards" className="hover:text-indigo-400 transition">Cards</Link></li>
           <li><Link to="/about" className="hover:text-indigo-400 transition">About War Spirit</Link></li>
         </ul>
-
         {/* Right-side auth links */}
         <div className="hidden md:flex space-x-4 text-sm font-semibold">
           {!token ? (
@@ -60,7 +74,6 @@ function Navbar() {
           )}
         </div>
       </div>
-
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden mt-4">
