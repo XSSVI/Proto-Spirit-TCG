@@ -37,10 +37,14 @@ await client.connect({
 
 console.log("Connected to MongoDB Atlas");
 
-// Export the database and collections
+
+// Export the databases and collections
 export const db = client.database("Usuarios");
 export const usersCollection = db.collection("users");
 export const tokenCollection = db.collection("tokens");
+
+export const dbcards = client.database("Cartas");
+export const cardCollection = dbcards.collection("Collection 1");
 
 // Initialize sample users if none exist
 const userCount = await usersCollection.countDocuments();
@@ -61,3 +65,9 @@ if (userCount === 0) {
   ]);
   console.log("Sample users created");
 }
+
+
+
+// Print the first 3 cards in Collection1
+const firstThreeCards = await cardCollection.find().limit(3).toArray();
+console.log("First 3 cards in Collection1:", firstThreeCards);
