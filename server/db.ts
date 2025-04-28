@@ -44,7 +44,7 @@ export const usersCollection = db.collection("users");
 export const tokenCollection = db.collection("tokens");
 
 export const dbcards = client.database("Cartas");
-export const cardCollection = dbcards.collection("Collection 1");
+export const cardCollection = dbcards.collection("Collection2");
 
 // Initialize sample users if none exist
 const userCount = await usersCollection.countDocuments();

@@ -3,81 +3,8 @@ import Card from "./carddata.tsx";
 
 function Cards() {
   // Card data state
-  const [cards, setCards] = useState([
-    {
-      id: 1,
-      name: "Fire Warrior",
-      keywords: ["aggressive", "melee", "berserker"],
-      type: "Warrior",
-      element: "Fire",
-      species: "Human",
-      imageUrl: "/king_of_hearts2.png"
-    },
-    {
-      id: 2,
-      name: "Water Mage",
-      keywords: ["spell", "control", "tactical"],
-      type: "Mage",
-      element: "Water",
-      species: "Elf",
-      imageUrl: "/queen_of_hearts2.png"
-    },
-    {
-      id: 3,
-      name: "Earth Guardian",
-      keywords: ["defensive", "tanky", "protector"],
-      type: "Guardian",
-      element: "Earth",
-      species: "Dwarf",
-      imageUrl: "/jack_of_hearts2.png"
-    },
-    {
-      id: 4,
-      name: "Wind Assassin",
-      keywords: ["stealth", "speed", "critical"],
-      type: "Assassin",
-      element: "Wind",
-      species: "Orc",
-      imageUrl: "/10_of_hearts.png"
-    },
-    {
-      id: 5,
-      name: "Lightning Shaman",
-      keywords: ["shock", "area", "support"],
-      type: "Shaman",
-      element: "Lightning",
-      species: "Goblin",
-      imageUrl: "/ace_of_hearts.png"
-    },
-    {
-      id: 6,
-      name: "Shadow Necromancer",
-      keywords: ["summon", "curse", "darkness"],
-      type: "Necromancer",
-      element: "Shadow",
-      species: "Undead",
-      imageUrl: "/2_of_spades.png"
-    },
-    {
-      id: 7,
-      name: "Ice Archer",
-      keywords: ["ranged", "slow", "precision"],
-      type: "Archer",
-      element: "Ice",
-      species: "Elf",
-      imageUrl: "/8_of_spades.png"
-    },
-    {
-      id: 8,
-      name: "Storm Paladin",
-      keywords: ["holy", "charge", "resilience"],
-      type: "Paladin",
-      element: "Storm",
-      species: "Human",
-      imageUrl: "/10_of_spades.png"
-    }
-  ]);
-
+  const [cards, setCards] = useState([]);
+  
   // Filter state
   const [filter, setFilter] = useState({
     element: "",
@@ -86,9 +13,24 @@ function Cards() {
   });
 
   // Filtered cards state
-  const [filteredCards, setFilteredCards] = useState(cards);
+  const [filteredCards, setFilteredCards] = useState([]);
 
-  // Apply filters whenever filter state changes
+  // Fetch cards from server
+  useEffect(() => {
+    async function fetchCards() {
+      try {
+        const response = await fetch("http://localhost:8000/cards");
+        const data = await response.json();
+        setCards(data);
+      } catch (error) {
+        console.error("Error fetching cards:", error);
+      }
+    }
+
+    fetchCards();
+  }, []);
+
+  // Apply filters whenever cards or filter state changes
   useEffect(() => {
     let result = [...cards];
     
@@ -109,7 +51,7 @@ function Cards() {
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-4xl font-bold text-indigo-400 mb-6">War Spirit cards</h1>
+      <h1 className="text-4xl font-bold text-indigo-400 mb-6">War Spirit Cards</h1>
       
       {/* Filter controls */}
       <div className="bg-gray-800 p-4 rounded-lg mb-6">
@@ -123,12 +65,14 @@ function Cards() {
               onChange={(e) => setFilter({...filter, element: e.target.value})}
             >
               <option value="">All Elements</option>
-              <option value="Fire">Fire</option>
+              <option value="none">none</option>
               <option value="Water">Water</option>
               <option value="Earth">Earth</option>
-              <option value="Air">Air</option>
-              <option value="Light">Light</option>
-              <option value="Dark">Dark</option>
+              <option value="Wind">Wind</option>
+              <option value="Lightning">Lightning</option>
+              <option value="Shadow">Shadow</option>
+              <option value="Ice">Ice</option>
+              <option value="Storm">Storm</option>
             </select>
           </div>
           
@@ -143,8 +87,11 @@ function Cards() {
               <option value="Warrior">Warrior</option>
               <option value="Mage">Mage</option>
               <option value="Guardian">Guardian</option>
-              <option value="Scout">Scout</option>
-              <option value="Support">Support</option>
+              <option value="Assassin">Assassin</option>
+              <option value="Shaman">Shaman</option>
+              <option value="Necromancer">Necromancer</option>
+              <option value="Archer">Archer</option>
+              <option value="Paladin">Paladin</option>
             </select>
           </div>
           
@@ -159,8 +106,9 @@ function Cards() {
               <option value="Human">Human</option>
               <option value="Elf">Elf</option>
               <option value="Dwarf">Dwarf</option>
-              <option value="Dragon">Dragon</option>
-              <option value="Beast">Beast</option>
+              <option value="Orc">Orc</option>
+              <option value="Goblin">Goblin</option>
+              <option value="Undead">Undead</option>
             </select>
           </div>
         </div>
@@ -179,9 +127,9 @@ function Cards() {
       {/* Card grid - using filteredCards instead of cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {filteredCards.map((card) => (
-          <div key={card.id} className="flex justify-center">
+          <div key={card._id.$oid || card._id} className="flex justify-center">
             <Card
-              imageUrl={card.imageUrl}
+              imageUrl={card.imageUrl || "/default_card.png"} // fallback if no imageUrl
               cardData={{
                 name: card.name,
                 keywords: card.keywords,

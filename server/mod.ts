@@ -2,6 +2,7 @@
 import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import { authRoutes } from "./routes/auth.ts";
+import { getCards } from "./routes/cards.ts";
 import { validateToken } from "./middleware/auth.ts";
 import { existsSync } from "https://deno.land/std@0.224.0/fs/mod.ts";
 
@@ -52,6 +53,9 @@ router.get("/api/protected", validateToken, (ctx) => {
     user: ctx.state.user,
   };
 });
+
+// Card route
+router.get("/cards", getCards);
 
 // Mount router
 app.use(router.routes());
