@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import Card from "./carddata.tsx";
 
 function Cards() {
-  // Card data state
   const [cards, setCards] = useState([]);
-  
-  // Filter state
   const [filter, setFilter] = useState({
     element: "",
     type: "",
     species: ""
   });
-
-  // Filtered cards state
   const [filteredCards, setFilteredCards] = useState([]);
+  
+  // Dynamic dropdown options
+  const [elements, setElements] = useState<string[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
+  const [species, setSpecies] = useState<string[]>([]);
 
   // Fetch cards from server
   useEffect(() => {
@@ -22,6 +22,22 @@ function Cards() {
         const response = await fetch("http://localhost:8000/cards");
         const data = await response.json();
         setCards(data);
+
+        // Extract unique elements, types, species
+        const elementSet = new Set<string>();
+        const typeSet = new Set<string>();
+        const speciesSet = new Set<string>();
+
+        data.forEach((card: any) => {
+          if (card.element) elementSet.add(card.element);
+          if (card.type) typeSet.add(card.type);
+          if (card.species) speciesSet.add(card.species);
+        });
+
+        setElements(Array.from(elementSet).sort());
+        setTypes(Array.from(typeSet).sort());
+        setSpecies(Array.from(speciesSet).sort());
+
       } catch (error) {
         console.error("Error fetching cards:", error);
       }
@@ -65,14 +81,9 @@ function Cards() {
               onChange={(e) => setFilter({...filter, element: e.target.value})}
             >
               <option value="">All Elements</option>
-              <option value="none">none</option>
-              <option value="Water">Water</option>
-              <option value="Earth">Earth</option>
-              <option value="Wind">Wind</option>
-              <option value="Lightning">Lightning</option>
-              <option value="Shadow">Shadow</option>
-              <option value="Ice">Ice</option>
-              <option value="Storm">Storm</option>
+              {elements.map((el) => (
+                <option key={el} value={el}>{el}</option>
+              ))}
             </select>
           </div>
           
@@ -84,14 +95,9 @@ function Cards() {
               onChange={(e) => setFilter({...filter, type: e.target.value})}
             >
               <option value="">All Types</option>
-              <option value="Warrior">Warrior</option>
-              <option value="Mage">Mage</option>
-              <option value="Guardian">Guardian</option>
-              <option value="Assassin">Assassin</option>
-              <option value="Shaman">Shaman</option>
-              <option value="Necromancer">Necromancer</option>
-              <option value="Archer">Archer</option>
-              <option value="Paladin">Paladin</option>
+              {types.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
             </select>
           </div>
           
@@ -103,12 +109,9 @@ function Cards() {
               onChange={(e) => setFilter({...filter, species: e.target.value})}
             >
               <option value="">All Species</option>
-              <option value="Human">Human</option>
-              <option value="Elf">Elf</option>
-              <option value="Dwarf">Dwarf</option>
-              <option value="Orc">Orc</option>
-              <option value="Goblin">Goblin</option>
-              <option value="Undead">Undead</option>
+              {species.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
             </select>
           </div>
         </div>
@@ -124,12 +127,12 @@ function Cards() {
         </div>
       </div>
       
-      {/* Card grid - using filteredCards instead of cards */}
+      {/* Card grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {filteredCards.map((card) => (
-          <div key={card._id.$oid || card._id} className="flex justify-center">
+          <div key={card._id?.$oid || card._id} className="flex justify-center">
             <Card
-              imageUrl={card.imageUrl || "/default_card.png"} // fallback if no imageUrl
+              imageUrl={card.imageUrl || "/ace_of_hearts.png"}
               cardData={{
                 name: card.name,
                 keywords: card.keywords,
@@ -162,3 +165,4 @@ function Cards() {
 }
 
 export default Cards;
+
