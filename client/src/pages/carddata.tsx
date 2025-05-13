@@ -33,24 +33,34 @@ export default function CardImageButton({ imageUrl, cardData }: CardImageButtonP
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="bg-white text-black p-6 rounded-lg shadow-xl max-w-md w-full"
+            className="bg-white text-black p-6 rounded-lg shadow-xl max-w-full sm:max-w-3xl w-full flex flex-col sm:flex-row gap-6 sm:gap-8"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-2xl font-bold mb-4">{cardData.name}</h2>
-            <ul className="space-y-2 text-sm">
-              <li><strong>Type:</strong> {cardData.type}</li>
-              <li><strong>Element:</strong> {cardData.element}</li>
-              <li><strong>Species:</strong> {cardData.species}</li>
-              <li>
-                <strong>Keywords:</strong> {cardData.keywords.join(", ")}
-              </li>
-            </ul>
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="mt-6 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
-            >
-              Close
-            </button>
+            {/* Card Image */}
+            <img
+              src={imageUrl}
+              alt={cardData.name}
+              className="w-full sm:w-48 h-auto rounded shadow mb-6 sm:mb-0"
+            />
+
+            {/* Card Info */}
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold mb-4">{cardData.name}</h2>
+              <ul className="space-y-2 text-sm">
+                <li><strong>Type:</strong> {cardData.type}</li>
+                <li><strong>Element:</strong> {cardData.element}</li>
+                <li><strong>Species:</strong> {cardData.species}</li>
+                <li>
+                  <strong>Keywords:</strong> {cardData.keywords.join(", ")}
+                </li>
+              </ul>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="mt-6 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

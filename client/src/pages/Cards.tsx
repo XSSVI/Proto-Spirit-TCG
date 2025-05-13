@@ -128,11 +128,13 @@ function Cards() {
       </div>
       
       {/* Card grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 pb-6">
         {filteredCards.map((card) => (
           <div key={card._id?.$oid || card._id} className="flex justify-center">
             <Card
-              imageUrl={card.imageUrl || "/ace_of_hearts.png"}
+            //imageUrl={card.code ? /${card.code}.png : "/ace_of_hearts.png"}
+            //^^NEW IMAGE SOURCE WITHOUT "OFF" REPLACEMENT IN CARD CODE^^
+              imageUrl={card.code ? `/${card.code.replace(/^OFF/, "OOF")}.png` : "/ace_of_hearts.png"}
               cardData={{
                 name: card.name,
                 keywords: card.keywords,
@@ -165,4 +167,3 @@ function Cards() {
 }
 
 export default Cards;
-
