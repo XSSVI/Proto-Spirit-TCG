@@ -55,7 +55,7 @@ function Navbar() {
         <ul className="hidden md:flex flex-1 justify-center space-x-8 text-lg font-medium">
           <li><Link to="/" className="hover:text-indigo-400 transition">Main</Link></li>
           <li><Link to="/cards" className="hover:text-indigo-400 transition">Cards</Link></li>
-          <li><Link to="/about" className="hover:text-indigo-400 transition">About War Spirit</Link></li>
+          <li><Link to="/about" className="hover:text-indigo-400 transition">About Spirit War</Link></li>
         </ul>
         {/* Right-side auth links */}
         <div className="hidden md:flex space-x-4 text-sm font-semibold">

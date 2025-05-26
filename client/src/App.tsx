@@ -23,7 +23,7 @@ function App() {
             <>
               <h1 className="text-6xl font-bold text-indigo-400 mb-6">Proto Spirit</h1>
               <p className="text-xl max-w-2xl">
-                A web app that allows you to scan and register your War Spirit cards to keep a personal inventory!
+                A web app that allows you to scan and register your Spirit War cards to keep a personal inventory!
               </p>
             </>
           } />

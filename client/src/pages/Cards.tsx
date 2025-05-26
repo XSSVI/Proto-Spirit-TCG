@@ -67,7 +67,7 @@ function Cards() {
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-4xl font-bold text-indigo-400 mb-6">War Spirit Cards</h1>
+      <h1 className="text-4xl font-bold text-indigo-400 mb-6">Spirit War Cards</h1>
       
       {/* Filter controls */}
       <div className="bg-gray-800 p-4 rounded-lg mb-6">
