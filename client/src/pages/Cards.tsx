@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "./carddata.tsx";
+import ProgressBar from "./completionbar.tsx";
 
 function Cards() {
   const [cards, setCards] = useState([]);
@@ -126,6 +127,9 @@ function Cards() {
           </button>
         </div>
       </div>
+
+      {/* Completion bar */}
+      <ProgressBar allCards={cards} inventory={cards} />
       
       {/* Card grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 pb-6">
