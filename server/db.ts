@@ -45,6 +45,8 @@ export const tokenCollection = db.collection("tokens");
 
 export const dbcards = client.database("Cartas");
 export const cardCollection = dbcards.collection("Collection2");
+export const rarities = dbcards.collection("Rarezas");
+export const carddata = dbcards.collection("datos");
 
 // Initialize sample users if none exist
 const userCount = await usersCollection.countDocuments();
@@ -71,3 +73,11 @@ if (userCount === 0) {
 // Print the first 3 cards in Collection1
 const firstThreeCards = await cardCollection.find().limit(3).toArray();
 console.log("First 3 cards in Collection1:", firstThreeCards);
+
+// Print the first 3 entries in rarities
+const firstThreeRarities = await rarities.find().limit(3).toArray();
+console.log("First 3 rarities:", firstThreeRarities);
+
+// Print the first 3 entries in rarities
+const firstThreeCardData = await carddata.find().limit(3).toArray();
+console.log("First 3 rarities:", firstThreeCardData);
