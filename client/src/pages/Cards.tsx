@@ -66,9 +66,38 @@ function Cards() {
     setFilteredCards(result);
   }, [cards, filter]);
 
+  // Calculate stats
+  const totalCards = cards.length;
+  const spiritCards = cards.filter(card => card.type === "Spirit").length;
+  const beyonderCards = cards.filter(card => card.type === "Beyonder").length;
+  const evocationCards = cards.filter(card => card.type === "Evocation").length;
+
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-4xl font-bold text-indigo-400 mb-6">Spirit War Cards</h1>
+      
+      {/* Stats Section */}
+      <div className="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 rounded-2xl p-8 mb-16 border border-indigo-500/30">
+        <h2 className="text-3xl font-bold text-indigo-300 mb-6">Your Collection at a Glance</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-white mb-2">{totalCards}</div>
+            <div className="text-gray-400">Total Cards</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-indigo-400 mb-2">{spiritCards}</div>
+            <div className="text-gray-400">Spirits</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-purple-400 mb-2">{beyonderCards}</div>
+            <div className="text-gray-400">Beyonders</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-cyan-400 mb-2">{evocationCards}</div>
+            <div className="text-gray-400">Evocations</div>
+          </div>
+        </div>
+      </div>
       
       {/* Filter controls */}
       <div className="bg-gray-800 p-4 rounded-lg mb-6">
