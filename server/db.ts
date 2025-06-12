@@ -44,7 +44,8 @@ export const usersCollection = db.collection("users");
 export const tokenCollection = db.collection("tokens");
 
 export const dbcards = client.database("Cartas");
-export const cardCollection = dbcards.collection("Collection2");
+// export const cardCollection = dbcards.collection("Collection2");
+export const cardCollection = dbcards.collection("Collection3");
 export const rarities = dbcards.collection("Rarezas");
 export const carddata = dbcards.collection("datos");
 

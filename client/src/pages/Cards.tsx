@@ -173,8 +173,12 @@ function Cards() {
                 keywords: card.keywords,
                 type: card.type,
                 element: card.element,
-                species: card.species
+                species: card.species,
+                soul_cost: card.soul_cost,
+                edge: card.edge,
+                shield: card.shield
               }}
+              rarity="" // Rarity field, will only display on website if value is any of the following: "C", "R", "SR", "UR"
             />
           </div>
         ))}
