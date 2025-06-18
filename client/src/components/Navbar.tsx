@@ -1,32 +1,20 @@
 // src/components/Navbar.tsx
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.tsx";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const navigate = useNavigate();
-  
-  // Auth management: check if the user is logged in
-  const token = localStorage.getItem("token");
+  const { isAuthenticated, logout, user } = useAuth();
   
   const handleLogout = async () => {
     try {
-      if (token) {
-        // Call the logout API to invalidate the token on the server
-        await fetch("/api/auth/logout", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-      }
+      await logout();
+      navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
-    } finally {
-      // Always clear local storage and redirect
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      // Still navigate even if logout fails
       navigate("/login");
     }
   };
@@ -51,29 +39,37 @@ function Navbar() {
             <path d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
+        
         {/* Center nav links */}
         <ul className="hidden md:flex flex-1 justify-center space-x-8 text-lg font-medium">
           <li><Link to="/" className="hover:text-indigo-400 transition">Main</Link></li>
           <li><Link to="/cards" className="hover:text-indigo-400 transition">Cards</Link></li>
           <li><Link to="/about" className="hover:text-indigo-400 transition">About Spirit War</Link></li>
         </ul>
+        
         {/* Right-side auth links */}
         <div className="hidden md:flex space-x-4 text-sm font-semibold">
-          {!token ? (
+          {!isAuthenticated ? (
             <>
               <Link to="/register" className="hover:text-indigo-400 transition">Register</Link>
               <Link to="/login" className="hover:text-indigo-400 transition">Log In</Link>
             </>
           ) : (
-            <button
-              onClick={handleLogout}
-              className="hover:text-indigo-400 transition"
-            >
-              Logout
-            </button>
+            <div className="flex items-center space-x-4">
+              {user && (
+                <span className="text-indigo-300">Welcome, {user.email}</span>
+              )}
+              <button
+                onClick={handleLogout}
+                className="hover:text-indigo-400 transition"
+              >
+                Logout
+              </button>
+            </div>
           )}
         </div>
       </div>
+      
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden mt-4">
@@ -81,17 +77,22 @@ function Navbar() {
             <li><Link to="/" className="hover:text-indigo-400 transition">Main</Link></li>
             <li><Link to="/cards" className="hover:text-indigo-400 transition">Cards</Link></li>
             <li><Link to="/about" className="hover:text-indigo-400 transition">About War Spirit</Link></li>
-            {!token ? (
+            {!isAuthenticated ? (
               <>
                 <li><Link to="/register" className="hover:text-indigo-400 transition">Register</Link></li>
                 <li><Link to="/login" className="hover:text-indigo-400 transition">Log In</Link></li>
               </>
             ) : (
-              <li>
-                <button onClick={handleLogout} className="hover:text-indigo-400 transition">
-                  Logout
-                </button>
-              </li>
+              <>
+                {user && (
+                  <li className="text-indigo-300">Welcome, {user.email}</li>
+                )}
+                <li>
+                  <button onClick={handleLogout} className="hover:text-indigo-400 transition">
+                    Logout
+                  </button>
+                </li>
+              </>
             )}
           </ul>
         </div>

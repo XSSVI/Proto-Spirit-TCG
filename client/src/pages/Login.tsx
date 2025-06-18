@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.tsx";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -7,6 +8,7 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,28 +16,10 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-
-      // Store the token in localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      
-      // Redirect to the cards page
+      await login(email, password);
       navigate("/cards");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred");
+      setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setLoading(false);
     }
@@ -88,15 +72,6 @@ function Login() {
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
-      
-      <div className="mt-4 text-center">
-        <p>
-          Don't have an account?{" "}
-          <a href="/register" className="text-indigo-400 hover:text-indigo-300">
-            Register
-          </a>
-        </p>
-      </div>
     </div>
   );
 }
