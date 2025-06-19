@@ -41,7 +41,10 @@ router.post("/api/auth/login", async (ctx) => {
     }
    
     // Verify password
-    if (user.password !== password) {
+    const { compare } = await import("https://deno.land/x/bcrypt@v0.4.1/mod.ts");
+    const passwordMatch = await compare(password, user.password);
+
+    if (!passwordMatch) {
       ctx.response.headers.set("Connection", "keep-alive");
       ctx.response.headers.set("Keep-Alive", "timeout=120");
       ctx.response.status = 401;
@@ -157,3 +160,68 @@ router.get("/api/auth/me", async (ctx) => {
 
 // Route export
 export { router as authRoutes };
+
+// Register endpoint
+router.post("/api/auth/register", async (ctx) => {
+  const body = ctx.request.body();
+
+  if (body.type !== "json") {
+    ctx.response.status = 400;
+    ctx.response.body = { success: false, message: "Invalid request format" };
+    return;
+  }
+
+  const { username, email, password } = await body.value;
+
+  if (!username || !email || !password) {
+    ctx.response.status = 400;
+    ctx.response.body = {
+      success: false,
+      message: "Username, email, and password are required",
+    };
+    return;
+  }
+
+  try {
+    const existingUser = await usersCollection.findOne({
+      $or: [{ email }, { username }],
+    });
+
+    if (existingUser) {
+      ctx.response.status = 409;
+      ctx.response.body = { success: false, message: "User already exists" };
+      return;
+    }
+
+    // Import bcrypt and hash password
+    const { hash } = await import("https://deno.land/x/bcrypt@v0.4.1/mod.ts");
+    const hashedPassword = await hash(password);
+
+    const insertId = await usersCollection.insertOne({
+      username,
+      email,
+      password: hashedPassword,
+      role: "user",
+    });
+
+    // Use existing token logic
+    const token = await generateToken(insertId.toString());
+
+    ctx.response.status = 201;
+    ctx.response.body = {
+      success: true,
+      message: "User registered successfully",
+      token,
+      user: {
+        _id: insertId,
+        username,
+        email,
+        role: "user",
+      },
+    };
+  } catch (err) {
+    console.error("Registration error:", err);
+    ctx.response.status = 500;
+    ctx.response.body = { success: false, message: "Internal server error" };
+  }
+});
