@@ -45,6 +45,9 @@ function Navbar() {
           <li><Link to="/" className="hover:text-indigo-400 transition">Main</Link></li>
           <li><Link to="/cards" className="hover:text-indigo-400 transition">Cards</Link></li>
           <li><Link to="/about" className="hover:text-indigo-400 transition">About Spirit War</Link></li>
+          {isAuthenticated && (
+            <li><Link to="/inventory" className="hover:text-indigo-400 transition">Inventory</Link></li>
+          )}
         </ul>
         
         {/* Right-side auth links */}
@@ -77,6 +80,9 @@ function Navbar() {
             <li><Link to="/" className="hover:text-indigo-400 transition">Main</Link></li>
             <li><Link to="/cards" className="hover:text-indigo-400 transition">Cards</Link></li>
             <li><Link to="/about" className="hover:text-indigo-400 transition">About War Spirit</Link></li>
+            {isAuthenticated && (
+              <li><Link to="/inventory" className="hover:text-indigo-400 transition">Inventory</Link></li>
+            )}
             {!isAuthenticated ? (
               <>
                 <li><Link to="/register" className="hover:text-indigo-400 transition">Register</Link></li>

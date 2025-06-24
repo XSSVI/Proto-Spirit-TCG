@@ -5,6 +5,7 @@ import { authRoutes } from "./routes/auth.ts";
 import { getCards } from "./routes/cards.ts";
 import { validateToken } from "./middleware/auth.ts";
 import { existsSync } from "https://deno.land/std@0.224.0/fs/mod.ts";
+import { usersRoutes } from "./routes/users.ts";
 
 //Check if there's an .env file or if it needs to be created
 if (!existsSync(".env")) {
@@ -56,6 +57,9 @@ router.get("/api/protected", validateToken, (ctx) => {
 
 // Card route
 router.get("/cards", getCards);
+
+// User route
+app.use(usersRoutes.routes());
 
 // Mount router
 app.use(router.routes());

@@ -58,12 +58,14 @@ if (userCount === 0) {
       password: "admin123",
       name: "Admin User",
       role: "admin",
+      inventory: [],
     },
     {
       email: "user@example.com",
       password: "user123",
       name: "Regular User",
       role: "user",
+      inventory: [],
     },
   ]);
   console.log("Sample users created");

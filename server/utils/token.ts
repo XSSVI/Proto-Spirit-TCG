@@ -67,4 +67,3 @@ export async function deleteToken(token: string): Promise<boolean> {
       return false;
     }
 }
-  

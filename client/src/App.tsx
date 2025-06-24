@@ -8,6 +8,9 @@ import Cards from "./pages/Cards.tsx";
 import Login from "./pages/Login.tsx";
 import About from "./pages/About.tsx";
 import Register from "./pages/Register.tsx";
+import Inventory from "./pages/Inventory.tsx";
+
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 function App() {
   return (
@@ -96,6 +99,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>}/>
         </Routes>
       </main>
     </div>

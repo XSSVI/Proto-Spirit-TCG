@@ -1,3 +1,4 @@
+// server/mod.ts
 import { Application } from "jsr:@oak/oak/application";
 import { Router } from "jsr:@oak/oak/router";
 import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
