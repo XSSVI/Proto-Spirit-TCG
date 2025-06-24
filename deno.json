@@ -5,7 +5,9 @@
     "server:start": "deno run -A --node-modules-dir --watch ./server/main.ts",
     "serve": "deno task build && deno task server:start",
     "test": "deno test --allow-all --no-check",
-    "test:check": "deno test --allow-all"
+    "test:check": "deno test --allow-all",
+    "test:coverage": "deno test --allow-all --no-check --coverage=coverage",
+    "coverage:report": "deno coverage coverage --html"
   },
   "imports": {
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.0",
