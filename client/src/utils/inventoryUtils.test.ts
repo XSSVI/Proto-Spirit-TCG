@@ -4,3 +4,28 @@ import {
   applyCardFilters,
 } from "./inventoryUtils.ts";
 
+//positive tests
+Deno.test("normalizeCode replaces OFF with OOF", () => {
+  const result = normalizeCode("OFF123");
+  if (result !== "OOF123") {
+    throw new Error(`Expected "OOF123", got "${result}"`);
+  }
+});
+
+Deno.test("filterCardsByInventory returns only cards present in inventory", () => {
+  const cards = [
+    { code: "OOF001" },
+    { code: "OOF002" },
+    { code: "OOF003" },
+  ];
+
+  const inventory: [number, string, string][] = [
+    [1, "OOF001", "Common"],
+    [2, "OOF003", "Rare"],
+  ];
+
+  const result = filterCardsByInventory(cards, inventory);
+  if (result.length !== 2 || result[0].code !== "OOF001" || result[1].code !== "OOF003") {
+    throw new Error(`Unexpected filtered result: ${JSON.stringify(result)}`);
+  }
+});
