@@ -7,7 +7,10 @@
     "test": "deno test --allow-all --no-check",
     "test:check": "deno test --allow-all",
     "test:coverage": "deno test --allow-all --no-check --coverage=coverage",
-    "coverage:report": "deno coverage coverage --html"
+    "coverage:report": "deno coverage coverage --html",
+    "test:inventory": "deno test --coverage=coverage client/src/utils/inventoryUtils.test.ts",
+    "coverage:lcov": "deno coverage coverage --lcov > coverage.lcov",
+    "coverage:genhtml": "genhtml coverage.lcov -o coverage_report"
   },
   "imports": {
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.0",
