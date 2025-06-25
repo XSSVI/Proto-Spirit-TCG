@@ -90,18 +90,18 @@ function Inventory() {
     }
 
     const inventoryCodes = new Set(inventory.map(([, code]) => normalizeCode(code)));
-    let result = cards.filter((card) =>
+    let result = cards.filter((card: any) =>
       inventoryCodes.has(normalizeCode(card.code))
     );
 
     if (filter.element) {
-      result = result.filter((card) => card.element === filter.element);
+      result = result.filter((card: any) => card.element === filter.element);
     }
     if (filter.type) {
-      result = result.filter((card) => card.type === filter.type);
+      result = result.filter((card: any) => card.type === filter.type);
     }
     if (filter.species) {
-      result = result.filter((card) => card.species === filter.species);
+      result = result.filter((card: any) => card.species === filter.species);
     }
 
     setFilteredCards(result);
@@ -109,9 +109,9 @@ function Inventory() {
 
   // Stats based only on inventory cards
   const totalCards = filteredCards.length;
-  const spiritCards = filteredCards.filter(card => card.type === "Spirit").length;
-  const beyonderCards = filteredCards.filter(card => card.type === "Beyonder").length;
-  const evocationCards = filteredCards.filter(card => card.type === "Evocation").length;
+  const spiritCards = filteredCards.filter((card: any) => card.type === "Spirit").length;
+  const beyonderCards = filteredCards.filter((card: any) => card.type === "Beyonder").length;
+  const evocationCards = filteredCards.filter((card: any) => card.type === "Evocation").length;
 
   return (
     <div className="container mx-auto px-4">
@@ -203,7 +203,7 @@ function Inventory() {
 
       {/* Card Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 pb-6">
-        {filteredCards.map((card) => {
+        {filteredCards.map((card: any) => {
           const rarity = inventory.find(([, code]) =>
             normalizeCode(code) === normalizeCode(card.code)
           )?.[2] || "";
@@ -220,7 +220,8 @@ function Inventory() {
                   species: card.species,
                   soul_cost: card.soul_cost,
                   edge: card.edge,
-                  shield: card.shield
+                  shield: card.shield,
+                  url: card.code ? `/${normalizeCode(card.code)}.png` : "/ace_of_hearts.png"
                 }}
                 rarity={rarity}
               />
