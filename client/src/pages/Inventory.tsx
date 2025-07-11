@@ -6,9 +6,9 @@ import ProgressBar from "./completionbar.tsx";
 const normalizeCode = (code: string) => code.replace(/^OFF/, "OOF");
 
 function Inventory() {
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<any[]>([]);
   const [inventory, setInventory] = useState<Array<[number, string, string]>>([]);
-  const [filteredCards, setFilteredCards] = useState([]);
+  const [filteredCards, setFilteredCards] = useState<any[]>([]);
 
   const [filter, setFilter] = useState({
     element: "",
@@ -53,24 +53,23 @@ function Inventory() {
   // Fetch current user's inventory
   useEffect(() => {
     async function fetchInventory() {
-      // ⬇️ read the saved user object
       const userStr = localStorage.getItem("user");
       const user = userStr ? JSON.parse(userStr) : null;
       const userId = user?._id;
-    
-      console.log("User ID from localStorage:", userId);   // should now be 24-char hex
-    
-      if (!userId) return;                     // not logged in
-      if (!/^[0-9a-fA-F]{24}$/.test(userId)) { // sanity-check
+
+      console.log("User ID from localStorage:", userId);
+
+      if (!userId) return;
+      if (!/^[0-9a-fA-F]{24}$/.test(userId)) {
         console.warn("Bad userId:", userId);
         return;
       }
-    
+
       try {
         const res = await fetch(`http://localhost:8000/users/${userId}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const userData = await res.json();
-      
+
         if (Array.isArray(userData.inventory)) {
           setInventory(userData.inventory);
         }
@@ -78,7 +77,7 @@ function Inventory() {
         console.error("Error fetching inventory:", err);
       }
     }
-  
+
     fetchInventory();
   }, []);
 
@@ -90,6 +89,7 @@ function Inventory() {
     }
 
     const inventoryCodes = new Set(inventory.map(([, code]) => normalizeCode(code)));
+
     let result = cards.filter((card: any) =>
       inventoryCodes.has(normalizeCode(card.code))
     );
@@ -107,11 +107,36 @@ function Inventory() {
     setFilteredCards(result);
   }, [cards, inventory, filter]);
 
-  // Stats based only on inventory cards
-  const totalCards = filteredCards.length;
-  const spiritCards = filteredCards.filter((card: any) => card.type === "Spirit").length;
-  const beyonderCards = filteredCards.filter((card: any) => card.type === "Beyonder").length;
-  const evocationCards = filteredCards.filter((card: any) => card.type === "Evocation").length;
+  // ✅ NEW: compute stats based on inventory items, including duplicates
+  const filteredInventoryItems = inventory.filter(([id, code, rarity]) => {
+    const normalized = normalizeCode(code);
+    const card = cards.find((c) => normalizeCode(c.code) === normalized);
+    if (!card) return false;
+    if (filter.element && card.element !== filter.element) return false;
+    if (filter.type && card.type !== filter.type) return false;
+    if (filter.species && card.species !== filter.species) return false;
+    return true;
+  });
+
+  const totalCards = filteredInventoryItems.length;
+
+  const spiritCards = filteredInventoryItems.filter(([id, code]) => {
+    const normalized = normalizeCode(code);
+    const card = cards.find((c) => normalizeCode(c.code) === normalized);
+    return card?.type === "spirit";
+  }).length;
+
+  const beyonderCards = filteredInventoryItems.filter(([id, code]) => {
+    const normalized = normalizeCode(code);
+    const card = cards.find((c) => normalizeCode(c.code) === normalized);
+    return card?.type === "beyonder";
+  }).length;
+
+  const evocationCards = filteredInventoryItems.filter(([id, code]) => {
+    const normalized = normalizeCode(code);
+    const card = cards.find((c) => normalizeCode(c.code) === normalized);
+    return card?.type === "evocation";
+  }).length;
 
   return (
     <div className="container mx-auto px-4">
@@ -203,13 +228,12 @@ function Inventory() {
 
       {/* Card Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 pb-6">
-        {filteredCards.map((card: any) => {
-          const rarity = inventory.find(([, code]) =>
-            normalizeCode(code) === normalizeCode(card.code)
-          )?.[2] || "";
+        {filteredCards.flatMap((card: any) => {
+          const code = normalizeCode(card.code);
+          const matchingItems = inventory.filter(([, invCode]) => normalizeCode(invCode) === code);
 
-          return (
-            <div key={card._id?.$oid || card._id} className="flex justify-center">
+          return matchingItems.map(([id, _code, rarity]) => (
+            <div key={`${card._id?.$oid || card._id}-${id}`} className="flex justify-center">
               <Card
                 imageUrl={card.code ? `/${normalizeCode(card.code)}.png` : "/ace_of_hearts.png"}
                 cardData={{
@@ -226,7 +250,7 @@ function Inventory() {
                 rarity={rarity}
               />
             </div>
-          );
+          ));
         })}
       </div>
 

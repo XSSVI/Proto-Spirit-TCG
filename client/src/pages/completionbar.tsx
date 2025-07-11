@@ -6,10 +6,13 @@ interface ProgressBarProps {
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ allCards, inventory }) => {
-  const total = allCards.length;
-  const collected = inventory.length;
-  const percentage = total > 0 ? Math.round((collected / total) * 100) : 0;
+  const uniqueAllCardCodes = new Set(allCards.map(card => card.code));
+  const uniqueInventoryCodes = new Set(inventory.map(card => card.code));
 
+  const total = uniqueAllCardCodes.size;
+  const collected = uniqueInventoryCodes.size;
+  const percentage = total > 0 ? Math.round((collected / total) * 100) : 0;
+  
   return (
     <div className="mb-6">
       <h2 className="text-lg font-semibold text-white mb-2">Collection Completion</h2>

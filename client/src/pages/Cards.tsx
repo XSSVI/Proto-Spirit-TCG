@@ -68,9 +68,9 @@ function Cards() {
 
   // Calculate stats
   const totalCards = cards.length;
-  const spiritCards = cards.filter(card => card.type === "Spirit").length;
-  const beyonderCards = cards.filter(card => card.type === "Beyonder").length;
-  const evocationCards = cards.filter(card => card.type === "Evocation").length;
+  const spiritCards = cards.filter(card => card.type === "spirit").length;
+  const beyonderCards = cards.filter(card => card.type === "beyonder").length;
+  const evocationCards = cards.filter(card => card.type === "evocation").length;
 
   return (
     <div className="container mx-auto px-4">

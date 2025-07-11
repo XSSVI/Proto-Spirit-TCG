@@ -147,7 +147,9 @@ router.post("/api/auth/register", async (ctx) => {
 
     const starterInventory: [number, string, string][] = [
       [1, "OOF-31", "UR"],
-      [2, "OOF-01", "C"],
+      [2, "OOF-31", "SR"],
+      [3, "OOF-01", "C"],
+      [4, "OOF-21", "R"],
     ];
 
     const insertId = await usersCollection.insertOne({
