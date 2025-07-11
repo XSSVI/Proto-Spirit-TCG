@@ -1,0 +1,12 @@
+names:
+- card_name
+- element_type
+- species
+- description
+- stats
+- card_code
+nc: 6
+path: D:\trabajo\dataset
+test: images/test
+train: images/train
+val: images/val
